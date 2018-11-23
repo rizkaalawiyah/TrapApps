@@ -13,16 +13,20 @@ php:
      #sebelum melakukan atau eksekusi script
      #install kebetuhan os, ex: mod-php, dll 
     before_install:
-      - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubetcl
-      - chmod +x ./kubectl
-      - sudo mv ./kubectl /usr/local/bin/kubectl
-      - kubectl
+    
+
       #pre eksekusi
       #testing dll
-    before_install:
+      #build
+    before_script:
+      - cp .env.travis .env
+      - composer install --no-interaction
+      - php artisan key:generate
 
       #main eksekusi
+      #jalankan testing
     script:
+      - ./vendor/bin/phpunit
 
 
 
